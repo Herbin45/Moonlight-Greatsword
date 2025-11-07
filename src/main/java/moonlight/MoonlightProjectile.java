@@ -2,8 +2,8 @@
  
  import java.awt.Color;
  import java.util.List;
- import necesse.engine.tickManager.TickManager;
- import necesse.entity.Entity;
+
+ import necesse.engine.gameLoop.tickManager.TickManager;
  import necesse.entity.mobs.GameDamage;
  import necesse.entity.mobs.Mob;
  import necesse.entity.mobs.PlayerMob;
@@ -54,24 +54,25 @@
  
    
    public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList, OrderableDrawables topList, OrderableDrawables overlayList, Level level, TickManager tickManager, GameCamera camera, PlayerMob perspective) {
-     if (removed())
-       return;  float alpha = getFadeAlphaTime(300, 200);
-     GameLight light = level.getLightLevel((Entity)this);
-     int drawX = camera.getDrawX(this.x) - this.texture.getWidth() / 2;
-     int drawY = camera.getDrawY(this.y - getHeight()) - this.texture.getHeight() / 2;
- 
- 
- 
-     
-     final TextureDrawOptionsEnd options = this.texture.initDraw().light(light.minLevelCopy(Math.min(light.getLevel() + 100.0F, 150.0F))).rotate(getAngle() - 135.0F, this.texture.getWidth() / 2, this.texture.getHeight() / 2).alpha(alpha).pos(drawX, drawY);
-     
-     list.add(new EntityDrawable((Entity)this)
-         {
-           public void draw(TickManager tickManager) {
-             options.draw();
-           }
-         });
-   }
+	        if (removed())
+	          return;  float alpha = getFadeAlphaTime(300, 200);
+	        GameLight light = level.getLightLevel(this);
+	        int drawX = camera.getDrawX(this.x) - this.texture.getWidth() / 2;
+	        int drawY = camera.getDrawY(this.y - getHeight()) - this.texture.getHeight() / 2;
+	    
+	    
+	    
+	        
+	        final TextureDrawOptionsEnd options = this.texture.initDraw().light(light.minLevelCopy(Math.min(light.getLevel() + 100.0F, 150.0F))).rotate(getAngle() - 135.0F, this.texture.getWidth() / 2, this.texture.getHeight() / 2).alpha(alpha).pos(drawX, drawY);
+	        
+	        list.add(new EntityDrawable(this)
+	            {
+	              public void draw(TickManager tickManager) {
+	                options.draw();
+	              }
+	            });
+	      }
+   
  }
 
 

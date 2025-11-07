@@ -7,9 +7,9 @@ plugins {
 
 project.ext.modID = "kamikaze.moonlight" // The unique id of your mod. Must be all lowercase and cannot use special characters.
 project.ext.modName = "Moonlight Greatsword" // The display name of your mod.
-project.ext.modVersion = "1.2" // Your current builds version. Must follow the xx.xx... format.
-project.ext.gameVersion = "0.23.1" // The target game version.
-project.ext.modDescription = "Adds a craftable moonlight greatsword from dark souls as an end game weapon! You can find the recipe for it in the advanced workstation furthest down the list." // Short description of what your mod is.
+project.ext.modVersion = "1.6" // Your current builds version. Must follow the xx.xx... format.
+project.ext.gameVersion = "1.0.1" // The target game version.
+project.ext.modDescription = "Adds a craftable moonlight greatsword from dark souls as an end game weapon! You can find the recipe for it in the tungsten anvil furthest down the list." // Short description of what your mod is.
 project.ext.author = "Kamikaze" // Your name
 
 /**
@@ -88,7 +88,7 @@ task createModInfoFile(type: JavaExec) {
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main "CreateModInfoFile"
+    main = "CreateModInfoFile"
     args "-file", "${sourceSets.main.java.outputDir}/mod.info",
             "-id", "${project.ext.modID}",
             "-name", "${project.ext.modName}",
@@ -103,16 +103,6 @@ task createModInfoFile(type: JavaExec) {
 // Makes compiling also create mod info file
 classes.dependsOn("createModInfoFile")
 
-task preAntialiasTextures(type: JavaExec) {
-    group "necesse"
-    description "Creates the mod info file"
-
-    classpath = files(gameDirectory + "/Necesse.jar")
-
-    main "PreAntialiasTextures"
-    args "-folders", "${sourceSets.main.resources.srcDirs.stream().map {file -> file.path}.toArray().join(";")}"
-}
-
 task runClient(type: JavaExec) {
     group "necesse"
     description "Run client with current mod"
@@ -120,8 +110,8 @@ task runClient(type: JavaExec) {
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "StartClient"
-    jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
+    main = "StartSteamClient"
+    jvmArgs "-Xms512m", "-Xmx4G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
     args "-dev", "-mod \"${buildLocation}\""
 }
 
@@ -132,8 +122,8 @@ task runDevClient(type: JavaExec) {
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "StartClient"
-    jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
+    main = "StartSteamClient"
+    jvmArgs "-Xms512m", "-Xmx4G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
     args "-dev 1", "-mod \"${buildLocation}\""
 }
 
@@ -144,9 +134,9 @@ task runServer(type: JavaExec) {
 
     classpath = files(gameDirectory + "/Server.jar")
 
-    main = "StartServer"
-    jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
-    args "-dev", "-mod \"${buildLocation}\""
+    main = "StartDesktopServer"
+    jvmArgs "-Xms512m", "-Xmx4G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
+    args "-mod \"${buildLocation}\""
 }
 
 task buildModJar(type: Jar) {
